@@ -1,7 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-50 text-gray-800 font-sans;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-sans antialiased text-gray-900 bg-gray-50 dark:bg-dark-bg dark:text-dark-text transition-colors duration-300;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-gray-900 dark:text-gray-100;
+  }
+}
+
+@layer components {
+  /* Dynamic utilities */
+  .glass {
+    @apply bg-white/70 dark:bg-dark-card/70 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
+  }
+  
+  .glass-panel {
+    @apply bg-white/90 dark:bg-dark-card/90 backdrop-blur-xl border border-gray-200/50 dark:border-gray-800/50 shadow-xl;
+  }
+
+  /* Premium Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  
+  .btn-primary {
+    @apply btn bg-accent text-white hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/30 focus:ring-accent dark:focus:ring-offset-dark-bg;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 hover:border-gray-300 dark:bg-dark-card dark:text-white dark:border-dark-border dark:hover:bg-dark-border dark:hover:border-gray-600 focus:ring-gray-200 dark:focus:ring-gray-700 dark:focus:ring-offset-dark-bg;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-accent text-accent hover:bg-accent hover:text-white focus:ring-accent dark:focus:ring-offset-dark-bg;
+  }
+  
+  .btn-ghost {
+    @apply btn text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-border dark:hover:text-white;
+  }
+
+  /* Premium Inputs */
+  .input-field {
+    @apply w-full px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all duration-200 dark:bg-dark-card dark:border-dark-border dark:text-white dark:placeholder-gray-500 dark:focus:border-accent dark:focus:ring-accent/50;
+  }
+  
+  .label-text {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5;
+  }
+
+  /* Layout wrappers */
+  .container-custom {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .page-container {
+    @apply min-h-screen flex flex-col pt-16; /* Accounts for fixed navbar */
+  }
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-700 rounded-full hover:bg-gray-400 dark:hover:bg-gray-600 transition-colors;
+}
+
+/* Hide scrollbar completely but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
