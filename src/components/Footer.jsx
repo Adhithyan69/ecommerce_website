@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaFacebookF, FaTwitter, FaInstagram, FaCcVisa, FaCcMastercard, FaCcPaypal, FaCcAmex } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
@@ -12,11 +13,11 @@ const Footer = () => {
         <div className="footer__column">
           <h5 className="footer__title">Quick Links</h5>
           <ul className="footer__list footer__list--links">
-            <li><a href="#" className="footer__link">About Us</a></li>
-            <li><a href="#" className="footer__link">Contact Us</a></li>
-            <li><a href="#" className="footer__link">FAQ</a></li>
-            <li><a href="#" className="footer__link">Terms & Conditions</a></li>
-            <li><a href="#" className="footer__link">Privacy Policy</a></li>
+            <li><Link to="/about" className="footer__link">About Us</Link></li>
+            <li><Link to="/contact" className="footer__link">Contact Us</Link></li>
+            <li><Link to="/faq" className="footer__link">FAQ</Link></li>
+            <li><Link to="/terms" className="footer__link">Terms & Conditions</Link></li>
+            <li><Link to="/privacy" className="footer__link">Privacy Policy</Link></li>
           </ul>
         </div>
         {/* Column 1: Get in Touch */}

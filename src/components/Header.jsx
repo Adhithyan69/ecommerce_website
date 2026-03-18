@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Search, Heart, ShoppingCart, LayoutGrid, X } from "lucide-react";
+import { Search, Heart, ShoppingCart, LayoutGrid, X, Menu } from "lucide-react";
+import { Link } from 'react-router-dom';
+import { useCart } from '../viewmodels/CartContext';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -24,8 +26,9 @@ const Header = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isDrawerOpen]); // Add isDrawerOpen to dependency array
+  }, [isDrawerOpen, isDropdownOpen]); // Add isDropdownOpen to dependency array
 
+  const { count } = useCart();
   return (
     <header className="bg-[#171d27] shadow-md fixed top-0 w-full z-50">
       <div className="container mx-auto flex items-center justify-between p-4 gap-4">
@@ -35,7 +38,7 @@ const Header = () => {
             onClick={() => setIsDrawerOpen(true)}
             className="text-gray-300 hover:text-white md:hidden"
           >
-            <LayoutGrid size={24} />
+            <Menu size={24} />
           </button>
           <h1 className="text-xl font-bold text-white">AN Shopy</h1>
         </div>
@@ -51,9 +54,9 @@ const Header = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
           </div>
           <nav className="flex gap-6 text-gray-300">
-            <a href="#" className="hover:text-white">Home</a>
-            <a href="#" className="hover:text-white">Shop</a>
-            <a href="#" className="hover:text-white">Contact</a>
+            <Link to="/" className="hover:text-white">Home</Link>
+            <Link to="/category" className="hover:text-white">Shop</Link>
+            <Link to="/contact" className="hover:text-white">Contact</Link>
           </nav>
         </div>
 
@@ -66,10 +69,12 @@ const Header = () => {
           <button className="text-gray-300 hover:text-white">
             <Heart size={22} />
           </button>
-          <button className="relative text-gray-300 hover:text-white hidden md:block">
+          <Link to="/cart" className="relative text-gray-300 hover:text-white hidden md:block">
             <ShoppingCart size={22} />
-            <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">2</span>
-          </button>
+            {count > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{count}</span>
+            )}
+          </Link>
 
           {/* Desktop User Icon and Dropdown */}
           <div className="relative hidden md:block" ref={dropdownRef}>
@@ -81,11 +86,11 @@ const Header = () => {
             </button>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Account</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Orders</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About Us</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contact Us</a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Return Policy</a>
+                <Link to="/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Account</Link>
+                <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Orders</Link>
+                <Link to="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About Us</Link>
+                <Link to="/contact" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Contact Us</Link>
+                <Link to="/return-policy" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Return Policy</Link>
                 <div className="border-t border-gray-100 my-1"></div>
                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
               </div>
@@ -108,11 +113,11 @@ const Header = () => {
           </button>
         </div>
         <nav className="flex flex-col p-4 space-y-2">
-          <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">My Account</a>
-          <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Orders</a>
-          <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">About Us</a>
-          <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Contact Us</a>
-          <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Return Policy</a>
+          <Link to="/account" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">My Account</Link>
+          <Link to="/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Orders</Link>
+          <Link to="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">About Us</Link>
+          <Link to="/contact" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Contact Us</Link>
+          <Link to="/return-policy" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Return Policy</Link>
           <div className="border-t border-gray-200 pt-2 mt-2"></div>
           <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Logout</a>
         </nav>
@@ -122,4 +127,3 @@ const Header = () => {
 };
 
 export default Header;
-

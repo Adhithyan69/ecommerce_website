@@ -1,5 +1,5 @@
 .popular-products-section {
-  @apply container mx-auto px-4 md:px-12 lg:px-24 overflow-hidden;
+  @apply container mx-auto px-6 md:px-10 lg:px-16 py-12 overflow-hidden;
 }
 
 .popular-products-section__title {

@@ -1,12 +1,11 @@
 import React from 'react';
-import "./Category.css";
 
 const CategoryCard = ({ img, name }) => (
-  <div className="category-card">
-    <div className="category-card__image-wrapper">
-      <img src={img} alt={name} className="category-card__image" />
+  <div className="flex flex-col items-center text-center p-2">
+    <div className="w-32 h-32 rounded-full overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-gray-100 p-2">
+      <img src={img} alt={name} className="w-full h-full object-cover rounded-full" />
     </div>
-    <p className="category-card__name">{name}</p>
+    <p className="font-medium mt-3 text-base">{name}</p>
   </div>
 );
 

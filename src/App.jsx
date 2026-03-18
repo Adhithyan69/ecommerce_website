@@ -1,20 +1,26 @@
-import React from "react";
-import Home from "./pages/Home";
-import BottomNav from './components/BottomNav'; // Make sure to import it
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import CategoryScreen from './pages/CategoryScreen';
+import Cart from './pages/Cart';
+import { CartProvider } from './viewmodels/CartContext';
 
 function App() {
   return (
-    <div className="App">
-      {/* The Header is already inside the Home page, so we don't need it here */}
-      <main className="pb-16"> {/* The pb-16 is important! */}
-        {/* 
-          For a single-page view, rendering Home directly is fine.
-          If you add more pages, you'll want to use React Router here.
-        */}
-        <Home />
-      </main>
-      <BottomNav /> {/* Ensure this is present */}
-    </div>
+    <CartProvider>
+      <div className="App">
+        <Header />
+        <main className="pt-20">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/category" element={<CategoryScreen />} />
+            <Route path="/category/:categoryName" element={<CategoryScreen />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </main>
+      </div>
+    </CartProvider>
   );
 }
 

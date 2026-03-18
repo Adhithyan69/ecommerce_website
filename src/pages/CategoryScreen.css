@@ -1,0 +1,65 @@
+/* d:\react_projects\my-app\src\screens\CategoryScreen\CategoryScreen.css */
+
+.category-screen-container {
+  @apply container mx-auto px-4 md:px-8 lg:px-16 py-8 grid grid-cols-1 md:grid-cols-4 gap-8;
+}
+
+.category-screen-sidebar {
+  @apply md:col-span-1 bg-white p-6 rounded-lg shadow-md;
+}
+
+.category-screen-sidebar__title {
+  @apply text-xl font-semibold mb-4;
+  position: relative;
+  padding-bottom: 1.5rem; /* Space between title text and underline */
+}
+
+.category-screen-sidebar__title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #3a57fd 180px, #d1d5db 180px); /* Blue under text, then gray */
+}
+
+.category-screen-sidebar__item {
+  @apply mb-2;
+}
+
+.category-screen-sidebar__button {
+  @apply w-full text-left py-2 px-4 rounded-md text-gray-700 hover:bg-gray-100 transition-colors duration-200;
+}
+
+.category-screen-sidebar__button.active {
+  @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+.filter-section {
+  @apply mt-4;
+}
+
+.category-screen-main-content {
+  @apply md:col-span-3 bg-white p-6 rounded-lg shadow-md;
+}
+
+.category-screen-main-content__title {
+  @apply text-2xl font-bold mb-6;
+  position: relative;
+  padding-bottom: 1.5rem; /* Space between title text and underline */
+}
+
+.category-screen-main-content__title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #3a57fd 180px, #d1d5db 180px); /* Blue under text, then gray */
+}
+
+.category-screen-product-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+}

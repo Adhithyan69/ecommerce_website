@@ -1,6 +1,14 @@
 .bottom-nav {
-    @apply lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-white flex justify-around items-center z-40;
+    @apply lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-white flex justify-around items-center z-[100];
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.bottom-nav__link--active .bottom-nav__icon {
+    @apply text-blue-500;
+}
+
+.bottom-nav__link--active .bottom-nav__text {
+    @apply text-blue-500;
 }
 
 .bottom-nav__link {

@@ -1,5 +1,5 @@
 .ad-section {
-  @apply container mx-auto px-4 md:px-12 lg:px-24 py-6 grid grid-cols-1 md:grid-cols-3 gap-6;
+  @apply container mx-auto px-6 md:px-10 lg:px-16 py-12 grid grid-cols-1 md:grid-cols-3 gap-6;
 }
 
 .ad-card {

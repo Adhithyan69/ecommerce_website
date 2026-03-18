@@ -1,111 +1,102 @@
-.category-card {
-    @apply flex flex-col items-center text-center p-2;
-}
-.category-card__image-wrapper {
-    @apply w-28 h-28 rounded-full overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-white p-2;
-}
-
-.category-card__image {
-    @apply w-full h-full object-cover rounded-full;
-}
-
-.category-card__name {
-    @apply font-medium mt-3 text-base text-blue-600;
-}
-
+🔹 Section Container
 .category-section {
-  @apply container mx-auto px-4 md:px-12 lg:px-24 overflow-hidden relative; /* Increased responsive padding */
+  @apply container mx-auto px-6 md:px-10 lg:px-16 py-12;
 }
 
+/* 🔹 Section Title */
 .category-section__title {
   @apply text-xl font-semibold mb-4;
-  position: relative; /* Set title to relative for positioning the underline */
-  padding-bottom: 1.5rem; /* Space between title text and underline */
+  position: relative;
+  padding-bottom: 1.5rem;
+  /* Horizontal padding to align with section padding */
+  padding-left: 1.5rem;   /* = px-6 */
+  padding-right: 1.5rem;
 }
 
-/* This single pseudo-element creates the split-color underline */
 .category-section__title::after {
   content: '';
   position: absolute;
-  bottom: 0; /* Position at the bottom of the title element */
-  left: 0;
+  bottom: 0;
+  /* Inset underline to match container horizontal padding */
+  left: 1.5rem;   /* = px-6 */
+  right: 1.5rem;
   height: 2px;
-  width: 100%; /* Make it span the full width of its container */
-  background: linear-gradient(to right, 
-    #3a57fd 160px, /* Blue color for the width of the text */
-    #d1d5db 160px  /* Gray color for the rest */
-  );
+  width: auto;
+  background: linear-gradient(to right, #3a57fd 180px, #d1d5db 180px);
 }
 
+@media (min-width: 768px) {
+  .category-section__title::after {
+    left: 2.5rem;  /* = md:px-10 */
+    right: 2.5rem;
+  }
+  .category-section__title {
+    padding-left: 2.5rem;  /* = md:px-10 */
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-section__title::after {
+    left: 4rem;    /* = lg:px-16 */
+    right: 4rem;
+  }
+  .category-section__title {
+    padding-left: 4rem;    /* = lg:px-16 */
+    padding-right: 4rem;
+  }
+}
+
+/* 🔹 Scroll Wrapper */
+.category-scroll-wrapper {
+  @apply relative px-6 md:px-10 lg:px-16;
+}
+
+/* 🔹 Scrollable Cards Row */
 .category-section__grid {
-    display: flex;
-    overflow-x: auto; /* Use auto to only show scrollbar when needed */
-    flex-wrap: nowrap;
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-}
-
-.category-section__grid-inner {
-    display: flex;
-    flex-wrap: nowrap;
-    padding-bottom: 1rem; /* Add some padding for the scrollbar or just for space */
+  @apply flex gap-5 overflow-x-auto pb-3 scroll-smooth;
+  scroll-padding: 0 1rem;
+  -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+  scrollbar-width: none;     /* Hide scrollbar Firefox */
 }
 
 .category-section__grid::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+  display: none; /* Hide scrollbar Chrome/Safari */
 }
 
+/* 🔹 Category Card Link (Compact width) */
+.category-link {
+  @apply flex-shrink-0 no-underline text-inherit;
+  width: 28%;      /* 📱 Very compact for mobile — ~3.5 cards visible */
+}
+
+@media (min-width: 640px) {
+  .category-link {
+    width: 22%;    /* sm: 4–5 cards visible */
+  }
+}
+
+@media (min-width: 768px) {
+  .category-link {
+    width: 18%;    /* md: 5–6 cards visible */
+  }
+}
+
+@media (min-width: 1024px) {
+  .category-link {
+    width: 14%;    /* lg: 7 cards visible */
+  }
+}
+
+/* 🔹 Dots */
 .category-section__dots {
-  text-align: center;
-  padding-top: 2rem; /* Increased from 1rem to account for removed padding */
+  @apply flex justify-center items-center mt-3;
 }
 
 .dot {
-  cursor: pointer;
-  height: 12px;
-  width: 12px;
-  margin: 0 4px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
+  @apply w-2 h-2 rounded-full bg-gray-300 mx-1 cursor-pointer transition-colors duration-300;
 }
 
 .dot.active {
-  background-color: #3a57fd;
-}
-
-/* Explicitly set a width on the cards themselves to ensure they don't collapse */
-.category-section__grid .category-card {
-    flex: 0 0 130px; /* Do not grow, do not shrink, and have a fixed width of 130px */
-    margin-right: 1rem;
-}
-
-.scroll-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 24px;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1; /* Normalize line height for better centering */
-}
-
-.scroll-arrow.prev {
-  left: 0.5rem;
-}
-.scroll-arrow.next {
-  right: 0.5rem;
-}
-
-.category-scroll-container {
-  position: relative;
+  @apply bg-blue-500;
 }
