@@ -64,8 +64,8 @@ const Orders = () => {
                 ))}
               </div>
               <div className="flex gap-3 w-full md:w-auto">
-                <button className="flex-1 md:flex-none btn-secondary text-sm py-2">View Invoice</button>
-                <button className="flex-1 md:flex-none btn-primary text-sm py-2">Track Order</button>
+                <Link to={`/user/orders/${order.id}/invoice`} className="flex-1 md:flex-none btn-secondary text-sm py-2 px-6 flex items-center justify-center">View Invoice</Link>
+                <Link to={`/user/orders/${order.id}`} className="flex-1 md:flex-none btn-primary text-sm py-2 px-6 flex items-center justify-center">Track Order</Link>
               </div>
             </div>
           </div>

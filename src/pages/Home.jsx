@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Truck, Shield, RefreshCw } from 'lucide-react';
+import { ArrowRight, Star, Clock, Heart, ShoppingCart, Shield, RefreshCw } from 'lucide-react';
 import ProductCard from '../components/shared/ProductCard';
+import useCartStore from '../store/useCartStore';
+import HeroAutoSlider from '../components/Home/HeroAutoSlider';
+import CategoryGrid from '../components/Home/CategoryGrid';
+import TopBrands from '../components/Home/TopBrands';
 
 // Stub Data for Homepage
 const MOCK_PRODUCTS = [
@@ -107,38 +111,8 @@ const Home = () => {
         Free global shipping on orders over $50. Shop the Spring Sale now!
       </div>
 
-      {/* Hero Banner Section */}
-      <section className="relative w-full h-[80vh] min-h-[600px] flex items-center">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=2000" 
-            alt="Hero Background" 
-            className="w-full h-full object-cover brightness-50 dark:brightness-[0.3]"
-          />
-        </div>
-        
-        <div className="container-custom relative z-10">
-          <div className="max-w-2xl text-white">
-            <span className="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-md text-sm font-semibold mb-6 animate-fade-in text-white shadow-sm border border-white/30">
-              New Collection 2026
-            </span>
-            <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight mb-6 animate-slide-up">
-              Future of <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">Dropshipping</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-200 mb-8 max-w-lg leading-relaxed animate-slide-up" style={{ animationDelay: '100ms' }}>
-              Discover curated premium products delivered straight from top verified suppliers directly to your doorstep.
-            </p>
-            <div className="flex flex-wrap gap-4 animate-slide-up" style={{ animationDelay: '200ms' }}>
-              <Link to="/category/all" className="btn bg-white text-gray-900 hover:bg-gray-100 h-14 px-8 text-lg hover:scale-105 transition-transform">
-                Shop Now
-              </Link>
-              <Link to="/category/trending" className="btn bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white/20 h-14 px-8 text-lg transition-colors">
-                View Trends
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroAutoSlider />
+      <CategoryGrid />
 
       {/* Trust Badges */}
       <section className="border-b border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card py-10">
@@ -146,7 +120,7 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center text-accent shrink-0">
-                <Truck size={24} />
+                <ShoppingCart size={24} />
               </div>
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white">Free Shipping</h4>
@@ -225,59 +199,53 @@ const Home = () => {
       </section>
 
       {/* Recommended For You */}
-      <section className="container-custom py-10">
-        <div className="flex items-end justify-between mb-10 border-b border-gray-200 dark:border-dark-border pb-4">
+      <section className="container-custom py-14">
+        <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="text-3xl font-display font-bold text-gray-900 dark:text-white">Recommended For You</h2>
-            <p className="text-gray-500 mt-2">Personalized picks based on your viewing history.</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">Handpicked For You</p>
+            <h2 className="text-3xl font-display font-bold text-gray-900 dark:text-white">Recommended Products</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-1.5 text-sm">Personalized picks based on your browsing history.</p>
           </div>
-          <Link to="/category/all" className="hidden sm:flex items-center gap-2 text-accent font-medium hover:underline">
-            View All <ArrowRight size={16} />
+          <Link to="/category/all" className="hidden sm:flex items-center gap-2 text-sm text-accent font-semibold hover:gap-3 transition-all group">
+            View All <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {MOCK_PRODUCTS.map((product) => (
-            <div key={product.id} className="relative">
-              {/* In a real app we'd pass the actual router Link to the card wrapper */}
-              <ProductCard product={product} />
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
 
-      {/* Frequently Bought Together / Trending Categories */}
-      <section className="container-custom py-16">
-        <h2 className="text-3xl font-display font-bold text-gray-900 dark:text-white mb-10 text-center">Shop by Category</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          <Link to="/category/fashion" className="group relative h-80 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-dark-border">
-            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=800" alt="Fashion" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-            <div className="absolute bottom-6 left-6 text-white">
-              <h3 className="text-2xl font-bold mb-1">Fashion apparel</h3>
-              <p className="text-sm text-gray-300">New season drops</p>
-            </div>
-          </Link>
-          
-          <Link to="/category/electronics" className="group relative h-80 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-dark-border">
-            <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=800" alt="Tech" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-            <div className="absolute bottom-6 left-6 text-white">
-              <h3 className="text-2xl font-bold mb-1">Tech & Gadgets</h3>
-              <p className="text-sm text-gray-300">Latest innovations</p>
-            </div>
-          </Link>
-
-          <Link to="/category/home" className="group relative h-80 rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-dark-border">
-            <img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&q=80&w=800" alt="Home" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-            <div className="absolute bottom-6 left-6 text-white">
-              <h3 className="text-2xl font-bold mb-1">Home Living</h3>
-              <p className="text-sm text-gray-300">Modern essentials</p>
-            </div>
-          </Link>
-
+      {/* Shop by Category */}
+      <section className="container-custom py-14">
+        <div className="text-center mb-10">
+          <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">Browse</p>
+          <h2 className="text-3xl font-display font-bold text-gray-900 dark:text-white">Shop by Category</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {[
+            { to: '/category/fashion', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80&w=800', label: 'Fashion Apparel', sub: 'New season drops' },
+            { to: '/category/electronics', img: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&q=80&w=800', label: 'Tech & Gadgets', sub: 'Latest innovations' },
+            { to: '/category/home', img: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&q=80&w=800', label: 'Home Living', sub: 'Modern essentials' },
+          ].map(({ to, img, label, sub }) => (
+            <Link key={to} to={to} className="group relative h-72 sm:h-80 rounded-2xl overflow-hidden shadow-lg border border-gray-100/50 dark:border-dark-border">
+              <img src={img} alt={label} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="flex items-end justify-between">
+                  <div>
+                    <h3 className="text-xl font-bold text-white mb-1">{label}</h3>
+                    <p className="text-sm text-gray-300">{sub}</p>
+                  </div>
+                  <div className="w-9 h-9 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all">
+                    <ArrowRight size={16} className="text-white" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShoppingCart, Heart, Star, Truck, Shield, RefreshCw, ChevronRight, ChevronDown, PlayCircle, Share2, AlertCircle } from 'lucide-react';
 import useCartStore from '../store/useCartStore';
+import ReviewSystem from '../components/Product/ReviewSystem';
 
 const MOCK_PRODUCT = {
   id: 'master-1',
@@ -263,6 +264,9 @@ const ProductDetails = () => {
         </div>
       </div>
 
+      {/* Review System Module */}
+      <ReviewSystem productId={productId} />
+
       {/* FAQs */}
       <div className="mt-24 max-w-3xl mx-auto">
         <h2 className="text-2xl font-display font-bold text-center text-gray-900 dark:text-white mb-8">Frequently Asked Questions</h2>
@@ -285,6 +289,20 @@ const ProductDetails = () => {
           ))}
         </div>
       </div>
+
+      {/* Sticky Bottom Actions (Mobile) */}
+      <div className="fixed bottom-[64px] left-0 right-0 p-3 bg-white dark:bg-dark-card border-t border-gray-100 dark:border-dark-border z-40 md:hidden flex gap-3 pb-safe shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.05)]">
+        <button className="flex items-center justify-center w-12 h-12 rounded-xl border border-gray-200 dark:border-dark-border text-gray-700 dark:text-gray-300 hover:bg-gray-50 active:scale-95 transition-all">
+          <Heart size={22} />
+        </button>
+        <button
+          onClick={handleAddToCart}
+          className="flex-1 btn-primary h-12 text-sm tracking-wide active:scale-[0.98] transition-all"
+        >
+          Add to Cart - ${(MOCK_PRODUCT.price * quantity).toFixed(2)}
+        </button>
+      </div>
+
     </div>
   );
 };

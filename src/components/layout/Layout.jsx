@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import BottomNav from '../shared/BottomNav';
 
 const PageFallback = () => (
   <div className="flex-1 flex items-center justify-center min-h-[60vh]">
@@ -32,6 +33,7 @@ const Layout = () => {
       </main>
 
       <Footer />
+      <BottomNav />
     </div>
   );
 };

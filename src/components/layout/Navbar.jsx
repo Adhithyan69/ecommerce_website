@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingCart, Search, Menu, User, Heart, X, LogOut } from 'lucide-react';
+import { ShoppingCart, Search, Menu, User, Heart, X, LogOut, Sun, Moon, Bell, LayoutDashboard } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 import useCartStore from '../../store/useCartStore';
 import SearchModal from './SearchModal';
@@ -10,12 +10,25 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const location = useLocation();
+
+  const toggleDarkMode = () => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      root.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    setIsDarkMode(!isDarkMode);
+  };
 
   const { user, isAuthenticated, logout } = useAuthStore();
   const { items } = useCartStore();
-  
-  const cartItemCount = items.reduce((acc, item) => acc + item.quantity, 0);
+
+  const cartItemCount = (items || []).reduce((acc, item) => acc + item.quantity, 0);
 
   // Listen to scroll events for glass effect
   useEffect(() => {
@@ -32,19 +45,18 @@ const Navbar = () => {
   }, [location]);
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/80 dark:bg-dark-bg/80 backdrop-blur-lg shadow-sm border-b border-gray-200 dark:border-dark-border py-3' 
-          : 'bg-transparent py-5'
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-white/80 dark:bg-dark-bg/80 backdrop-blur-lg shadow-sm border-b border-gray-200 dark:border-dark-border py-3'
+        : 'bg-transparent py-5'
+        }`}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between">
-          
+
           {/* Logo & Mobile Menu Toggle */}
           <div className="flex items-center gap-4">
-            <button 
+            <button
               className="lg:hidden text-gray-700 dark:text-gray-300 hover:text-accent transition-colors"
               onClick={() => setIsMobileMenuOpen(true)}
             >
@@ -62,20 +74,31 @@ const Navbar = () => {
             <Link to="/category/electronics" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors">Electronics</Link>
             <Link to="/category/fashion" className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-accent dark:hover:text-accent transition-colors">Fashion</Link>
             <Link to="/offers" className="text-sm font-medium text-rose-500 hover:text-rose-600 transition-colors flex items-center gap-1">
-              Offers 
+              Offers
               <span className="px-1.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 text-[10px] font-bold">SALE</span>
             </Link>
           </nav>
 
           {/* Action Icons */}
           <div className="flex items-center gap-3 sm:gap-5">
-            <button 
+            <button
+              onClick={toggleDarkMode}
+              className="text-gray-700 dark:text-gray-300 hover:text-accent transition-colors hidden sm:block"
+              title="Toggle Theme"
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button
               onClick={() => setIsSearchOpen(true)}
               className="text-gray-700 dark:text-gray-300 hover:text-accent transition-colors hidden sm:block"
             >
               <Search size={20} />
             </button>
-            <Link to="/wishlist" className="text-gray-700 dark:text-gray-300 hover:text-accent transition-colors hidden sm:block">
+            <Link to="/notifications" className="relative text-gray-700 dark:text-gray-300 hover:text-accent transition-colors hidden sm:block" title="Notifications">
+              <Bell size={20} />
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 flex items-center justify-center rounded-full bg-rose-500 text-white text-[9px] font-bold ring-2 ring-white dark:ring-dark-bg animate-bounce-subtle">2</span>
+            </Link>
+            <Link to="/wishlist" className="relative text-gray-700 dark:text-gray-300 hover:text-accent transition-colors hidden sm:block">
               <Heart size={20} />
             </Link>
             <Link to="/cart" className="relative text-gray-700 dark:text-gray-300 hover:text-accent transition-colors">
@@ -87,9 +110,10 @@ const Navbar = () => {
               )}
             </Link>
 
+
             {isAuthenticated ? (
               <div className="relative hidden sm:block">
-                <button 
+                <button
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                   className="flex items-center justify-center w-8 h-8 rounded-full bg-accent/10 border border-accent/20 text-accent transition-colors overflow-hidden"
                 >
@@ -107,8 +131,11 @@ const Navbar = () => {
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
                     <Link to="/user/dashboard" onClick={() => setIsProfileDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-bg">Dashboard</Link>
+                    {user?.role === 'seller' && (
+                      <Link to="/seller" onClick={() => setIsProfileDropdownOpen(false)} className="block px-4 py-2 text-sm text-emerald-600 dark:text-emerald-400 font-medium hover:bg-gray-50 dark:hover:bg-dark-bg">Seller Panel</Link>
+                    )}
                     <Link to="/orders" onClick={() => setIsProfileDropdownOpen(false)} className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-bg">Orders</Link>
-                    <button 
+                    <button
                       onClick={() => { setIsProfileDropdownOpen(false); logout(); }}
                       className="w-full text-left px-4 py-2 text-sm text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/10 flex items-center gap-2"
                     >
@@ -128,17 +155,16 @@ const Navbar = () => {
 
       {/* Mobile Drawer Overlay */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm transition-opacity"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
 
       {/* Mobile Menu Drawer */}
-      <div 
-        className={`fixed inset-y-0 left-0 w-3/4 max-w-sm bg-white dark:bg-dark-card shadow-2xl z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+      <div
+        className={`fixed inset-y-0 left-0 w-3/4 max-w-sm bg-white dark:bg-dark-card shadow-2xl z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="flex flex-col h-full overflow-y-auto">
           <div className="p-5 border-b border-gray-100 dark:border-dark-border flex items-center justify-between">
@@ -161,6 +187,11 @@ const Navbar = () => {
                 <Link to="/user/dashboard" className="py-2 text-gray-800 dark:text-gray-200 font-medium flex items-center gap-2">
                   <User size={18} /> My Dashboard
                 </Link>
+                {user?.role === 'seller' && (
+                  <Link to="/seller" className="py-2 text-emerald-600 dark:text-emerald-400 font-medium flex items-center gap-2">
+                    <LayoutDashboard size={18} /> Seller Panel
+                  </Link>
+                )}
                 <button onClick={logout} className="py-2 text-rose-500 font-medium flex items-center gap-2 text-left">
                   <LogOut size={18} /> Sign Out
                 </button>
@@ -173,6 +204,9 @@ const Navbar = () => {
             <Link to="/wishlist" className="py-2 text-gray-800 dark:text-gray-200 font-medium flex items-center gap-2">
               <Heart size={18} /> Wishlist
             </Link>
+            <button onClick={toggleDarkMode} className="py-2 text-gray-800 dark:text-gray-200 font-medium flex items-center gap-2 text-left">
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />} {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+            </button>
           </div>
         </div>
       </div>

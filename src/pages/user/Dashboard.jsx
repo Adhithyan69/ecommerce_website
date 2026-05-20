@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Heart, Settings, LogOut, User, MapPin, CreditCard, Bell, ChevronRight, TrendingUp } from 'lucide-react';
+import { Package, Heart, Settings, LogOut, User, MapPin, CreditCard, Bell, ChevronRight, TrendingUp, AlertCircle } from 'lucide-react';
 import useAuthStore from '../../store/useAuthStore';
 
 const Dashboard = () => {
@@ -40,11 +40,14 @@ const Dashboard = () => {
               <Link to="/user/orders" className="flex items-center gap-3 p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
                 <Package size={18} /> Orders
               </Link>
+              <Link to="/user/addresses" className="flex items-center gap-3 p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <MapPin size={18} /> Saved Addresses
+              </Link>
+              <Link to="/user/complaints" className="flex items-center gap-3 p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
+                <AlertCircle size={18} /> Complaints
+              </Link>
               <Link to="/wishlist" className="flex items-center gap-3 p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
                 <Heart size={18} /> Wishlist
-              </Link>
-              <Link to="/user/inbox" className="flex items-center gap-3 p-3 rounded-xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors">
-                <Bell size={18} /> Inbox
               </Link>
               <div className="h-px bg-gray-100 dark:bg-dark-border my-2"></div>
               <button onClick={logout} className="w-full flex items-center gap-3 p-3 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-colors">

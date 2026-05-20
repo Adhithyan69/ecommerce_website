@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Search, Heart, ShoppingCart, LayoutGrid, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import useCartStore from '../store/useCartStore';
+import useWishlistStore from '../store/useWishlistStore';
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const dropdownRef = useRef(null);
   const drawerRef = useRef(null);
+
+  const { items: cartItems } = useCartStore();
+  const cartItemCount = cartItems.reduce((total, item) => total + (item.quantity || 1), 0);
+  
+  const { items: wishlistItems } = useWishlistStore();
+  const wishlistItemCount = wishlistItems.length;
 
   // Effect to handle clicks outside the user dropdown
   // and mobile drawer
@@ -63,13 +72,14 @@ const Header = () => {
           <button className="text-gray-300 hover:text-white md:hidden">
             <Search size={22} />
           </button>
-          <button className="text-gray-300 hover:text-white">
+          <Link to="/wishlist" className="relative text-gray-300 hover:text-white">
             <Heart size={22} />
-          </button>
-          <button className="relative text-gray-300 hover:text-white hidden md:block">
+            {wishlistItemCount > 0 && <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{wishlistItemCount}</span>}
+          </Link>
+          <Link to="/cart" className="relative text-gray-300 hover:text-white hidden md:block">
             <ShoppingCart size={22} />
-            <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">2</span>
-          </button>
+            {cartItemCount > 0 && <span className="absolute -top-2 -right-2 bg-accent text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">{cartItemCount}</span>}
+          </Link>
 
           {/* Desktop User Icon and Dropdown */}
           <div className="relative hidden md:block" ref={dropdownRef}>

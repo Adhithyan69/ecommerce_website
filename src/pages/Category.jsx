@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Filter, ChevronDown, Grid3X3, List as ListIcon, X, SlidersHorizontal } from 'lucide-react';
 import ProductCard from '../components/shared/ProductCard';
+import ProductFilters from '../components/shared/ProductFilters';
 
 // Reusing MOCK_PRODUCTS from Home for demo, expanding slightly
 const generateMockProducts = (category, count) => {
@@ -33,23 +34,19 @@ const Category = () => {
   const [sortBy, setSortBy] = useState('recommended');
   
   // Filters State
-  const [priceRange, setPriceRange] = useState([0, 500]);
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [showInStockOnly, setShowInStockOnly] = useState(false);
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedRatings, setSelectedRatings] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
   // Generate some products based on route
   const products = useMemo(() => generateMockProducts(categoryId, 24), [categoryId]);
 
-  const toggleColor = (color) => {
-    setSelectedColors(prev => 
-      prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
-    );
-  };
-
   const clearFilters = () => {
-    setPriceRange([0, 500]);
-    setSelectedColors([]);
-    setShowInStockOnly(false);
+    setPriceRange([0, 1000]);
+    setSelectedCategories([]);
+    setSelectedRatings([]);
+    setSelectedBrands([]);
   };
 
   return (
@@ -126,74 +123,17 @@ const Category = () => {
           </div>
 
           <div className="p-5 md:p-0 flex-1 overflow-y-auto space-y-8 no-scrollbar">
-            {/* Active Filters Summary (If any) */}
-            {(selectedColors.length > 0 || showInStockOnly) && (
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-gray-900 dark:text-white">Active Filters</h4>
-                  <button onClick={clearFilters} className="text-xs text-accent hover:underline font-medium">Clear All</button>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {showInStockOnly && (
-                    <span className="inline-flex items-center gap-1 bg-gray-100 dark:bg-dark-bg text-xs px-2 py-1 rounded">In Stock <button onClick={() => setShowInStockOnly(false)}><X size={12}/></button></span>
-                  )}
-                  {selectedColors.map(c => (
-                    <span key={c} className="inline-flex items-center gap-1 bg-gray-100 dark:bg-dark-bg text-xs px-2 py-1 rounded">{c} <button onClick={() => toggleColor(c)}><X size={12}/></button></span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Price Filter */}
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Price Range</h4>
-              <div className="flex items-center gap-3 mb-4">
-                <input type="number" value={priceRange[0]} onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])} className="input-field py-1.5 text-sm" placeholder="Min" />
-                <span className="text-gray-400">-</span>
-                <input type="number" value={priceRange[1]} onChange={(e) => setPriceRange([priceRange[0], +e.target.value])} className="input-field py-1.5 text-sm" placeholder="Max" />
-              </div>
-              <input type="range" min="0" max="1000" className="w-full accent-accent" />
-            </div>
-
-            <div className="h-px bg-gray-200 dark:bg-dark-border"></div>
-
-            {/* Colors Filter */}
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Colors</h4>
-              <div className="space-y-3">
-                {['Black', 'White', 'Blue', 'Red', 'Green'].map(color => (
-                  <label key={color} className="flex items-center gap-3 cursor-pointer group">
-                    <input 
-                      type="checkbox" 
-                      className="w-4 h-4 rounded border-gray-300 text-accent focus:ring-accent accent-accent cursor-pointer"
-                      checked={selectedColors.includes(color)}
-                      onChange={() => toggleColor(color)}
-                    />
-                    <span className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
-                      <span className={`w-3 h-3 rounded-full border border-gray-200 dark:border-gray-700 bg-${color.toLowerCase()}-500`} style={{backgroundColor: color.toLowerCase() === 'white' ? '#fff' : color.toLowerCase() === 'black' ? '#000' : ''}}></span>
-                      {color}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-px bg-gray-200 dark:bg-dark-border"></div>
-
-            {/* Availability Filter */}
-            <div>
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Availability</h4>
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="w-4 h-4 rounded border-gray-300 text-accent focus:ring-accent accent-accent cursor-pointer"
-                  checked={showInStockOnly}
-                  onChange={(e) => setShowInStockOnly(e.target.checked)}
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">In Stock only</span>
-              </label>
-            </div>
-            
+            <ProductFilters 
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              selectedRatings={selectedRatings}
+              setSelectedRatings={setSelectedRatings}
+              selectedBrands={selectedBrands}
+              setSelectedBrands={setSelectedBrands}
+              clearFilters={clearFilters}
+            />
           </div>
 
           <div className="p-5 border-t border-gray-100 dark:border-dark-border md:hidden shrink-0">
